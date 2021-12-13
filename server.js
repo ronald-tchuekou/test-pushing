@@ -58,9 +58,9 @@ require("./api/routes/auth.route")(app);
 require("./api/routes/prestation.route")(app);
 require("./api/routes/prestaCoiffeuse.route")(app);
 require("./api/routes/galerie.route")(app);
-//  require("./api/routes/atelier.route")(app);
-// require("./api/routes/produit.route")(app);
-// require("./api/routes/catalogue.route")(app);
+require("./api/routes/plage.route")(app);
+require("./api/routes/ville.route")(app);
+require("./api/routes/disponibilite.route")(app);
 // require("./api/routes/contact.route")(app);
 // require("./api/routes/point.route")(app);
 // require("./api/routes/cadeau.route")(app);
@@ -73,8 +73,8 @@ require("./api/routes/galerie.route")(app);
 
 db.mongoose
   .connect(
-    `${dbConfig.URL}`,
-    // `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
+    // `${dbConfig.URL}`,
+    `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

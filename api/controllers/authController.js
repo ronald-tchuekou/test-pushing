@@ -71,6 +71,45 @@ exports.getCurrentUser = (req, res) => {
     });
 };
 
+exports.changePassword = (req, res) => {
+  User.findById(req.userId)
+    .exec()
+    .then((user) => {
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+
+      if (!passwordIsValid) {
+        return res.status(400).send({
+          message: "Ancien mot de passe incorrect.",
+        });
+      }
+      let userData = {};
+      userData.password = bcrypt.hashSync(req.body.newpassword, 8);
+      console.log(req.userId);
+      User.updateOne({ _id: req.userId }, { $set: userData })
+        .exec()
+        .then((resultat) => {
+          if (!resultat)
+            return res.status(404).json({
+              message: "Oups!! aucune information pour l'identifiant fourni",
+            });
+          res.status(200).json({
+            message: "Mise à jour reussie",
+            doc: resultat,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json({
+            message: "Oups!! une erreur est survenue",
+            error: err,
+          });
+        });
+    });
+};
+
 exports.updateUser = (req, res) => {
   let userData = {};
 
@@ -133,7 +172,7 @@ exports.signin = (req, res) => {
   User.findOne({
     email: req.body.email,
   })
-    .populate("role", "-__v")
+    // .populate("role", "-__v")
     .exec((err, user) => {
       if (err) {
         res.status(500).send({ message: err });
@@ -177,6 +216,7 @@ exports.signin = (req, res) => {
         prenom: user.prenom,
         email: user.email,
         role: user.role,
+        imageURL: user.imageURL,
         accessToken: token,
       });
     });

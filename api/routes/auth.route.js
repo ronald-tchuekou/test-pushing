@@ -22,6 +22,8 @@ module.exports = function (app) {
 
   app.get("/auth/profile", [authJwt.verifyToken], controller.getCurrentUser);
   app.put("/auth/update", [authJwt.verifyToken], controller.updateUser);
+  app.put("/auth/updatepass", [authJwt.verifyToken], controller.changePassword);
+
   app.put(
     "/auth/updateimage",
     [authJwt.verifyToken],

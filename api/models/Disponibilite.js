@@ -13,12 +13,11 @@ const disponibiliteSchema = new mongoose.Schema(
       required: true,
     },
 
-    type: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "prestation",
-      },
-    ],
+    plage: {
+      type: mongoose.Types.ObjectId,
+      ref: "plage",
+      required: true,
+    },
   },
   { timestamps: true }
 );

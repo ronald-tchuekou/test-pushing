@@ -29,72 +29,53 @@ isAdmin = (req, res, next) => {
       return;
     }
 
-    Role.findById(user.role).exec((err, roles) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-      if (roles.nom === "admin") {
-        next();
-        return;
-      }
-
-      res.status(403).send({ message: "Require Admin Role!" });
+    if (user.role === "admin") {
+      next();
       return;
-    });
+    }
+
+    res.status(403).send({ message: "Require Admin Role!" });
+    return;
   });
 };
 
-isHotesse = (req, res, next) => {
+isCoiffeuse = (req, res, next) => {
+  User.findById(req.userId).exec((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    if (user.role === "coiffeuse") {
+      next();
+      return;
+    }
+
+    res.status(403).send({ message: "Require Coiffeuse Role!" });
+    return;
+  });
+};
+
+isCliente = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
 
-    Role.findById(user.role).exec((err, roles) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-      if (roles.nom === "hotesse") {
-        next();
-        return;
-      }
-
-      res.status(403).send({ message: "Require Hotesse Role!" });
-      return;
-    });
-  });
-};
-
-isConseillere = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
+    if (user.role === "cliente") {
+      next();
       return;
     }
 
-    Role.findById(user.role).exec((err, roles) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-      if (roles.nom === "conseillere") {
-        next();
-        return;
-      }
-
-      res.status(403).send({ message: "Require Conseillere Role!" });
-      return;
-    });
+    res.status(403).send({ message: "Require Cliente Role!" });
+    return;
   });
 };
 
 const authJwt = {
   verifyToken,
   isAdmin,
-  isHotesse,
-  isConseillere,
+  isCoiffeuse,
+  isCliente,
 };
 module.exports = authJwt;

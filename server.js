@@ -73,8 +73,8 @@ require("./api/routes/disponibilite.route")(app);
 
 db.mongoose
   .connect(
-    // `${dbConfig.URL}`,
-    `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
+    `${dbConfig.URL}`,
+    // `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

@@ -71,6 +71,25 @@ exports.getCurrentUser = (req, res) => {
     });
 };
 
+exports.getCoiffeuse = (req, res) => {
+  User.findById(req.query.uid)
+    .select(
+      "_id nom prenom email biographie imageURL domicile deplace ville status numero role createdAt updatedAt"
+    )
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      } else {
+        res.status(200).send(user);
+      }
+    });
+};
+
 exports.changePassword = (req, res) => {
   User.findById(req.userId)
     .exec()
@@ -121,6 +140,11 @@ exports.updateUser = (req, res) => {
   if (req.body.deplace) userData.deplace = req.body.deplace;
   if (req.body.ville) userData.ville = req.body.ville;
 
+  if (req.body._id !== req.userId) {
+    return res.status(400).json({
+      message: "Vous n'avez pas le droit de modifier un autre utilisateur",
+    });
+  }
   User.update({ _id: req.userId }, { $set: userData })
     .exec()
     .then((resultat) => {

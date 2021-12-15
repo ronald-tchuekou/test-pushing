@@ -19,6 +19,10 @@ module.exports = function (app) {
     controller.getCoiffeusePresta
   );
 
+  app.get("/search/prest", controller.search);
+
+  app.get("/search/coiffeuse/prestation", controller.getSearchCoiffeusePresta);
+
   app.delete(
     "/coiffeuse/prestation/:id",
     [authJwt.verifyToken],

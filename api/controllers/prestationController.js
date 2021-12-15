@@ -5,6 +5,8 @@ exports.createPrestation = (req, res) => {
   const prestation = new Prestation({
     prestation: req.body.prestation,
     status: "PRESTATION",
+    index: req.body.index,
+    imageURL: req.body.imageURL,
     type: [],
   });
 
@@ -24,6 +26,7 @@ exports.createPrestation = (req, res) => {
 
 exports.getAllPrestation = (req, res) => {
   Prestation.find({ status: "PRESTATION" })
+    .sort({ index: 1 })
     .populate("type")
     .exec((err, user) => {
       if (err) {
@@ -39,6 +42,7 @@ exports.createPrestationType = (req, res) => {
   const id = req.params.id;
   const prestation = new Prestation({
     prestation: req.body.prestation,
+    index: req.body.index,
     status: "TYPE",
   });
 

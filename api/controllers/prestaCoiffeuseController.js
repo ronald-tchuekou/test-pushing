@@ -38,6 +38,22 @@ exports.getCoiffeusePresta = (req, res) => {
     });
 };
 
+exports.getSearchCoiffeusePresta = (req, res) => {
+  const uid = req.query.uid;
+  PrestaCoif.find({
+    uid: uid,
+  })
+    .populate("prestation uid")
+    .exec((err, prsetation) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+
+      return res.status(200).send(prsetation);
+    });
+};
+
 exports.deleteCoiffeusePresta = (req, res) => {
   const id = req.params.id;
   PrestaCoif.remove({
@@ -50,4 +66,22 @@ exports.deleteCoiffeusePresta = (req, res) => {
 
     return res.status(200).send(prsetation);
   });
+};
+
+exports.search = (req, res) => {
+  const prest = req.query.prest;
+  const uid = req.query.uid;
+  PrestaCoif.find({
+    uid: uid,
+    prestation: prest,
+  })
+    .populate("prestation uid")
+    .exec((err, prestation) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+
+      return res.status(200).json(prestation);
+    });
 };

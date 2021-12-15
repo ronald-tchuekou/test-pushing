@@ -11,17 +11,9 @@ module.exports = function (app) {
     next();
   });
 
-  app.post(
-    "/prestation",
-    upload.single("imageURL"),
-    controller.createPrestation
-  );
+  app.post("/prestation", controller.createPrestation);
 
-  app.post(
-    "/prestation/:id",
-    upload.single("imageURL"),
-    controller.createPrestationType
-  );
+  app.post("/prestation/:id", controller.createPrestationType);
 
   app.get("/prestation", controller.getAllPrestation);
 

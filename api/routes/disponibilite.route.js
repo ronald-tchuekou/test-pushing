@@ -20,5 +20,18 @@ module.exports = function (app) {
 
   app.get("/planning", controller.getDisponibilite);
 
+  app.get(
+    "/dispo",
+    [authJwt.verifyToken, authJwt.isCoiffeuse],
+    controller.getCoiffeuseDisponibilite
+  );
+  app.delete(
+    "/dispo",
+    [authJwt.verifyToken, authJwt.isCoiffeuse],
+    controller.deleteDisponibilite
+  );
+
+  app.get("/search", controller.search);
+
   //   app.get("/auth/profile", [authJwt.verifyToken], controller.getCurrentUser);
 };

@@ -15,6 +15,18 @@ const prestationSchema = new mongoose.Schema(
 
     imageURL: {
       type: String,
+      default: "",
+      required: false,
+    },
+
+    index: {
+      type: Number,
+      required: true,
+    },
+
+    checked: {
+      type: Boolean,
+      default: false,
       required: false,
     },
 

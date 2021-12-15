@@ -42,7 +42,9 @@ exports.createPrestationType = (req, res) => {
   const id = req.params.id;
   const prestation = new Prestation({
     prestation: req.body.prestation,
+    imageURL: req.body.imageURL,
     index: req.body.index,
+
     status: "TYPE",
   });
 

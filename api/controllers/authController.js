@@ -169,7 +169,7 @@ exports.updateUser = (req, res) => {
 exports.updateUserImage = (req, res) => {
   let userData = {};
 
-  userData.imageURL = req.file.path;
+  userData.imageURL = req.body.imageURL;
 
   User.update({ _id: req.userId }, { $set: userData })
     .exec()

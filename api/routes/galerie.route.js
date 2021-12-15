@@ -13,8 +13,7 @@ module.exports = function (app) {
 
   app.post(
     "/coiffeuse/galerie",
-    [authJwt.verifyToken],
-    upload.single("imageURL"),
+    [authJwt.verifyToken, authJwt.isCoiffeuse],
     controller.create
   );
 

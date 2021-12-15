@@ -2,7 +2,7 @@ const db = require("../models");
 const Galerie = db.galerie;
 
 exports.create = (req, res) => {
-  if (req.file) imageURL = req.file.path;
+  const imageURL = req.body.imageURL;
   const galerie = new Galerie({
     imageURL: imageURL,
     uid: req.userId,

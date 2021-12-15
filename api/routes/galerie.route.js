@@ -25,7 +25,7 @@ module.exports = function (app) {
   //   );
   app.delete(
     "/coiffeuse/galerie/:id",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, authJwt.isCoiffeuse],
     controller.deleteGalerie
   );
 };

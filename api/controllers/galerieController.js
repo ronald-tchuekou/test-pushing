@@ -41,6 +41,25 @@ exports.getGalerie = (req, res) => {
     });
 };
 
+exports.getCoiffeuseGalerie = (req, res) => {
+  Galerie.find({ uid: req.params.id })
+    .populate("uid")
+    .exec()
+    .then((resultats) =>
+      res.status(200).json({
+        count: resultats.length,
+        data: resultats,
+      })
+    )
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue",
+        error: err,
+      });
+    });
+};
+
 exports.deleteGalerie = (req, res) => {
   const id = req.params.id;
   Galerie.remove({

@@ -15,6 +15,7 @@ module.exports = function (app) {
   app.post("/ville/:id", controller.createSubVille);
 
   app.get("/ville", controller.getAllVille);
+  app.get("/ville/:id", controller.getVille);
 
   //   app.get("/auth/profile", [authJwt.verifyToken], controller.getCurrentUser);
 };

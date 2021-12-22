@@ -10,6 +10,11 @@ const plageSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    checked: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
   },
   { timestamps: true }
 );

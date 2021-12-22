@@ -36,6 +36,19 @@ exports.getAllVille = (req, res) => {
     });
 };
 
+exports.getVille = (req, res) => {
+  Ville.findById(req.params.id)
+    .populate("type")
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+
+      return res.status(200).send(user);
+    });
+};
+
 exports.createSubVille = (req, res) => {
   const id = req.params.id;
   const ville = new Ville({

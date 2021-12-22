@@ -18,6 +18,7 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     controller.getCoiffeusePresta
   );
+  app.get("/coiffeuse/prestation/:id", controller.getCoiffeusePresta);
 
   app.get("/search/prest", controller.search);
 

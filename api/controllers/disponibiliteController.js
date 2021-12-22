@@ -57,6 +57,40 @@ exports.getCoiffeuseDisponibilite = (req, res) => {
     });
 };
 
+exports.getCoiffeuseDisponibiliteByUid = (req, res) => {
+  const date = req.params.date;
+  const uid = req.params.id;
+  Disponibilite.find({
+    $and: [{ date: date }, { uid: uid }],
+  })
+    .populate({ path: "plage", options: { sort: { index: -1 } } })
+    .exec()
+    .then((resultats) => res.status(200).json(resultats))
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue",
+        error: err,
+      });
+    });
+};
+
+exports.getCoiffeuseAllDisponibiliteDate = (req, res) => {
+  const uid = req.params.id;
+  Disponibilite.find({ uid: uid })
+    .distinct("date")
+    .populate({ path: "plage", options: { sort: { index: -1 } } })
+    .exec()
+    .then((resultats) => res.status(200).json(resultats))
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue",
+        error: err,
+      });
+    });
+};
+
 exports.getDisponibilite = (req, res) => {
   const id = req.params.id;
   Disponibilite.findById(id)

@@ -18,6 +18,8 @@ module.exports = function (app) {
   );
 
   app.get("/coiffeuse/galerie", [authJwt.verifyToken], controller.getGalerie);
+
+  app.get("/coiffeuse/galerie/:id", controller.getCoiffeuseGalerie);
   //   app.get(
   //     "/coiffeuse/galerie/:uid",
   //     [authJwt.verifyToken],

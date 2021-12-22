@@ -18,7 +18,9 @@ module.exports = function (app) {
 
   app.get("/planning", controller.getAllDisponibilite);
 
-  app.get("/planning", controller.getDisponibilite);
+  app.get("/planning/:id", controller.getCoiffeuseAllDisponibiliteDate);
+
+  app.get("/planning/:id/:date", controller.getCoiffeuseDisponibiliteByUid);
 
   app.get(
     "/dispo",

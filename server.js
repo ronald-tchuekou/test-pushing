@@ -86,7 +86,7 @@ app.post("/stripe/charge", (req, res) => {
     });
 });
 
-// app.use('/auth', authRoute);
+//// app.use('/auth', authRoute);
 // app.use('/user', userRoute);
 // app.use('/atelier', atelierRoute);
 

@@ -8,7 +8,7 @@ const dbConfig = require("./api/config/db.config");
 
 const app = express();
 const Role = db.role;
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")("sk_test_djG6iLVDmEakcUZ6H6enmHHz00EI0Z9ufX");
 
 app.use(helmet());
 app.disable("x-powered-by");

@@ -92,8 +92,8 @@ app.post("/stripe/charge", (req, res) => {
 
 db.mongoose
   .connect(
-    // `${dbConfig.URL}`,
-    `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
+    `${dbConfig.URL}`,
+    // `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

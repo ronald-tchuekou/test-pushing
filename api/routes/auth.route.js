@@ -27,7 +27,6 @@ module.exports = function (app) {
   app.put(
     "/auth/updateimage",
     [authJwt.verifyToken],
-    upload.single("imageURL"),
     controller.updateUserImage
   );
   app.post("/auth/signin", controller.signin);

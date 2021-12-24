@@ -8,6 +8,7 @@ const dbConfig = require("./api/config/db.config");
 
 const app = express();
 const Role = db.role;
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 app.use(helmet());
 app.disable("x-powered-by");
@@ -61,11 +62,29 @@ require("./api/routes/galerie.route")(app);
 require("./api/routes/plage.route")(app);
 require("./api/routes/ville.route")(app);
 require("./api/routes/disponibilite.route")(app);
-// require("./api/routes/contact.route")(app);
+require("./api/routes/message.route")(app);
 // require("./api/routes/point.route")(app);
 // require("./api/routes/cadeau.route")(app);
 // require("./api/routes/panier.route")(app);
 // require("./api/routes/profilBeaute.route")(app);
+
+app.post("/stripe/charge", (req, res) => {
+  stripe.charges
+    .create({
+      amount: req.body.amount,
+      currency: req.body.currency,
+      source: req.body.token,
+      description: "My First Test Charge (created for API docs)",
+    })
+    .then((charge) => {
+      console.log(charge);
+      res.status(200).json(charge);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+});
 
 // app.use('/auth', authRoute);
 // app.use('/user', userRoute);
@@ -73,8 +92,8 @@ require("./api/routes/disponibilite.route")(app);
 
 db.mongoose
   .connect(
-    `${dbConfig.URL}`,
-    // `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
+    // `${dbConfig.URL}`,
+    `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

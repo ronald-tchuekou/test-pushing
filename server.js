@@ -69,8 +69,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 db.mongoose
   .connect(
-    // `${dbConfig.URL}`,
-    `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
+    `${dbConfig.URL}`,
+    // `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: false,

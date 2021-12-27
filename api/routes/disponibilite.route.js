@@ -34,6 +34,6 @@ module.exports = function (app) {
   );
 
   app.get("/search", controller.search);
-
+  app.get("/search/:date/:plage/:presta/:ville", controller.searchResult);
   //   app.get("/auth/profile", [authJwt.verifyToken], controller.getCurrentUser);
 };

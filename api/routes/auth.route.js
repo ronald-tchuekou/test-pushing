@@ -30,4 +30,6 @@ module.exports = function (app) {
     controller.updateUserImage
   );
   app.post("/auth/signin", controller.signin);
+
+  app.get("/auth/users", [authJwt.verifyToken], controller.getAllUser);
 };

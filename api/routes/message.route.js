@@ -11,8 +11,9 @@ module.exports = function (app) {
   });
 
   app.post("/chat", [authJwt.verifyToken], controller.sendMessage);
-
   app.get("/chat/discussion", [authJwt.verifyToken], controller.getDiscussion);
+
+  app.get("/chat/:uid", [authJwt.verifyToken], controller.getChat);
   //   app.get("/plage/:id", controller.getPlage);
 
   //   app.delete("/plage/:id", controller.deletePlage);

@@ -1,5 +1,7 @@
 const db = require("../models");
 const Disponibilite = db.disponibilite;
+const CoifPresta = db.prestaCoiffeuse;
+const mongoose = require("mongoose");
 
 exports.create = (req, res) => {
   const disponibilite = new Disponibilite({
@@ -137,4 +139,51 @@ exports.search = (req, res) => {
         error: err,
       });
     });
+};
+
+exports.searchResult = (req, res) => {
+  let date, plage, presta, ville;
+  let search = [];
+  let dispo = [];
+  try {
+    date = req.params.date;
+    plage = mongoose.Types.ObjectId(req.params.plage);
+    presta = mongoose.Types.ObjectId(req.params.presta);
+    ville = mongoose.Types.ObjectId(req.params.ville);
+  } catch (error) {
+    return res.status(400).json({ message: "Bad request" });
+  }
+  // console.log(date);
+  // console.log(plage);
+
+  Disponibilite.find({ date: date, plage: plage })
+    .select("uid")
+    .exec()
+    .then((result) => {
+      dispo = result;
+      // console.log(result);
+      if (result.length === 0) {
+        return res.status(404).json(result);
+      } else {
+        for (var i = 0; i < result.length; i++) {
+          var j = 0;
+          console.log(result.length);
+          CoifPresta.find({ uid: result[i].uid, prestation: presta })
+            .populate("uid prestation")
+            .exec()
+            .then((ress) => {
+              for (j = 0; j < ress.length; j++) {
+                // console.log(j);
+                search.push(ress[j]);
+                if (j === ress.length - 1 && i === result.length) {
+                  res.status(200).json(search);
+                }
+              }
+            });
+        }
+        // res.status(200).json(search);
+      }
+    });
+
+  console.log(dispo);
 };

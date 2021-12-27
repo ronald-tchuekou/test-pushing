@@ -2,6 +2,7 @@ const db = require("../models");
 const Chat = db.message;
 
 exports.sendMessage = (req, res) => {
+  // const io = req.app.get("io");
   const message = new Chat({
     toId: req.body.toId,
     fromId: req.userId,
@@ -12,8 +13,32 @@ exports.sendMessage = (req, res) => {
   message
     .save()
     .then((resultat) => {
-      res.status(201).json(resultat);
+      // res.status(201).json(resultat);
+      // io.on("connection", (socket) => {
+      //   socket.emit("sendMessage");
+      // });
+      // io.emit("");
     })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue",
+        error: err,
+      });
+    });
+};
+
+exports.getChat = (req, res) => {
+  uid = req.params.uid;
+  Chat.find({
+    $or: [
+      { toId: req.userId, fromId: uid },
+      { toId: uid, fromId: req.userId },
+    ],
+  })
+    .populate("toId fromId")
+    .exec()
+    .then((resultats) => res.status(200).json(resultats))
     .catch((err) => {
       console.log(err);
       res.status(500).json({
@@ -27,8 +52,6 @@ exports.getDiscussion = (req, res) => {
   Chat.find({
     $or: [{ toId: req.userId }, { fromId: req.userId }],
   })
-    .distinct("toId")
-    .distinct("fromId")
     .populate("toId fromId")
     .exec()
     .then((resultats) => res.status(200).json(resultats))

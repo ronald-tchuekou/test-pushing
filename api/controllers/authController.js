@@ -3,6 +3,7 @@ const db = require("../models");
 const User = db.user;
 const Role = db.role;
 const ROLES = db.ROLES;
+const mongoose = require("mongoose");
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -243,5 +244,21 @@ exports.signin = (req, res) => {
         imageURL: user.imageURL,
         accessToken: token,
       });
+    });
+};
+
+exports.getAllUser = (req, res) => {
+  // const id = mongoose.Types.ObjectId(req.userId);
+  // console.log(id);
+  User.find()
+    // .select(
+    //   "_id nom prenom email biographie imageURL domicile deplace ville status numero role createdAt updatedAt"
+    // )
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      res.status(200).send(user);
     });
 };

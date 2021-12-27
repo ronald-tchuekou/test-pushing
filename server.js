@@ -10,6 +10,19 @@ const app = express();
 const Role = db.role;
 const stripe = require("stripe")("sk_test_djG6iLVDmEakcUZ6H6enmHHz00EI0Z9ufX");
 
+let server = require("http").Server(app);
+let io = require("socket.io")(server);
+
+// app.set("io", io);
+
+io.on("connection", function (socket) {
+  console.log("connecter" + socket),
+    socket.on("setUser", function (data) {
+      console.log(data);
+      socket.emit("test", data);
+    });
+});
+
 app.use(helmet());
 app.disable("x-powered-by");
 
@@ -54,6 +67,24 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+db.mongoose
+  .connect(
+    // `${dbConfig.URL}`,
+    `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: false,
+    }
+  )
+  .then(() => {
+    console.log("Successfully connect to MongoDB.");
+    initial();
+  })
+  .catch((err) => {
+    console.error("Connection error", err);
+    process.exit();
+  });
+
 // routes
 require("./api/routes/auth.route")(app);
 require("./api/routes/prestation.route")(app);
@@ -63,7 +94,7 @@ require("./api/routes/plage.route")(app);
 require("./api/routes/ville.route")(app);
 require("./api/routes/disponibilite.route")(app);
 require("./api/routes/message.route")(app);
-// require("./api/routes/point.route")(app);
+require("./api/routes/reservation.route")(app);
 // require("./api/routes/cadeau.route")(app);
 // require("./api/routes/panier.route")(app);
 // require("./api/routes/profilBeaute.route")(app);
@@ -89,24 +120,6 @@ app.post("/stripe/charge", (req, res) => {
 //// app.use('/auth', authRoute);
 // app.use('/user', userRoute);
 // app.use('/atelier', atelierRoute);
-
-db.mongoose
-  .connect(
-    `${dbConfig.URL}`,
-    // `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-    initial();
-  })
-  .catch((err) => {
-    console.error("Connection error", err);
-    process.exit();
-  });
 
 function initial() {
   Role.estimatedDocumentCount((err, count) => {

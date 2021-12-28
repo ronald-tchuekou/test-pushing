@@ -95,7 +95,7 @@ require("./api/routes/ville.route")(app);
 require("./api/routes/disponibilite.route")(app);
 require("./api/routes/message.route")(app);
 require("./api/routes/reservation.route")(app);
-// require("./api/routes/cadeau.route")(app);
+require("./api/routes/like.route")(app);
 // require("./api/routes/panier.route")(app);
 // require("./api/routes/profilBeaute.route")(app);
 

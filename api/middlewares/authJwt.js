@@ -11,15 +11,19 @@ verifyToken = (req, res, next) => {
     return res.status(403).send({ message: "Vous devez vous connecter" });
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({ message: "Unauthorized!" });
-    }
-    // console.log(decoded)
-    req.userId = decoded.id;
-    req.role = decoded.role;
-    next();
-  });
+  try {
+    jwt.verify(token, config.secret, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({ message: "Unauthorized!" });
+      }
+      // console.log(decoded)
+      req.userId = decoded.id;
+      req.role = decoded.role;
+      next();
+    });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 isAdmin = (req, res, next) => {

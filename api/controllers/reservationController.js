@@ -22,15 +22,15 @@ exports.createReservation = (req, res) => {
           100) *
       100;
   }
-  // console.log(data);
+  console.log(data);
 
   stripe.charges
     .create(data)
     .then((charge) => {
-      console.log(req.body);
+      // console.log(req.body);
       let test = {
         cliente: req.userId,
-        coiffeuse: req.body.data.prestation.uid._id,
+        coiffeuse: req.body.data.prestation.uid,
         prestation: req.body.data.prestation._id,
         disponibilite: req.body.data.plage._id,
         date: req.body.data.date,

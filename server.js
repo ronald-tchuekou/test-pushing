@@ -104,14 +104,15 @@ app.post("/stripe/charge", (req, res) => {
     amount: 0,
     currency: "EUR",
     source: req.body.token,
-    description: `Frais demandés par la coiffeuse ${req.body.prestation.uid.prenom} pour des ${req.body.prestation.prestation.prestation}`,
+    description: `Frais demandés par la coiffeuse ${req.body.data.prestation.uid.prenom} pour des ${req.body.data.prestation.prestation.prestation}`,
   };
-  if (req.body.reduction === null) {
-    data.amount = req.body.prestation.tarif * 100;
+  if (req.body.data.reduction === null) {
+    data.amount = req.body.data.prestation.tarif * 100;
   } else {
     data.amount =
-      (req.body.prestation.tarif -
-        (req.body.reduction.amount * req.body.prestation.tarif) / 100) *
+      (req.body.data.prestation.tarif -
+        (req.body.data.reduction.amount * req.body.data.prestation.tarif) /
+          100) *
       100;
   }
   console.log(data);

@@ -63,17 +63,28 @@ exports.createReservation = (req, res) => {
 
 exports.getReservation = (req, res) => {
   Reservation.find({ cliente: req.userId })
-    .populate({
-      path: "prestation",
-      populate: [
-        {
-          path: "prestation",
-        },
-        {
-          path: "uid",
-        },
-      ],
-    })
+    .populate([
+      {
+        path: "prestation",
+        populate: [
+          {
+            path: "prestation",
+          },
+          {
+            path: "uid",
+          },
+        ],
+      },
+      {
+        path: "cliente",
+      },
+      {
+        path: "disponibilite",
+      },
+      {
+        path: "reduction",
+      },
+    ])
     .exec()
     .then((reserve) => {
       return res.status(200).json(reserve);

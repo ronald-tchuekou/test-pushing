@@ -63,8 +63,8 @@ exports.createReservation = (req, res) => {
 
 exports.getReservation = (req, res) => {
   Reservation.find({ cliente: req.userId })
-    .exec()
     .populate("cliente coiffeuse prestation disponibilite reduction")
+    .exec()
     .then((reserve) => {
       return res.status(200).json(reserve);
     })

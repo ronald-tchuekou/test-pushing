@@ -16,5 +16,5 @@ module.exports = function (app) {
     controller.createReservation
   );
 
-  app.post("/reservation", [authJwt.verifyToken], controller.getReservation);
+  app.get("/reservation", [authJwt.verifyToken], controller.getReservation);
 };

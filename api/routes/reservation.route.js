@@ -10,9 +10,9 @@ module.exports = function (app) {
     next();
   });
 
-  //   app.post(
-  //     "/planning",
-  //     [authJwt.verifyToken, authJwt.isCoiffeuse],
-  //     controller.create
-  //   );
+  app.post(
+    "/stripe/charge",
+    [authJwt.verifyToken],
+    controller.createReservation
+  );
 };

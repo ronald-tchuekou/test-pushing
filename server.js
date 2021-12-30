@@ -8,7 +8,6 @@ const dbConfig = require("./api/config/db.config");
 
 const app = express();
 const Role = db.role;
-const stripe = require("stripe")("sk_test_djG6iLVDmEakcUZ6H6enmHHz00EI0Z9ufX");
 
 let server = require("http").Server(app);
 let io = require("socket.io")(server);
@@ -99,36 +98,9 @@ require("./api/routes/like.route")(app);
 require("./api/routes/coupon.route")(app);
 // require("./api/routes/profilBeaute.route")(app);
 
-app.post("/stripe/charge", (req, res) => {
-  let data = {
-    amount: 0,
-    currency: "EUR",
-    source: req.body.token,
-    description: `Frais demandés par la coiffeuse ${req.body.data.prestation.uid.prenom} pour des ${req.body.data.prestation.prestation.prestation}`,
-  };
-  if (req.body.data.reduction === null) {
-    data.amount = req.body.data.prestation.tarif * 100;
-  } else {
-    data.amount =
-      (req.body.data.prestation.tarif -
-        (req.body.data.reduction.amount * req.body.data.prestation.tarif) /
-          100) *
-      100;
-  }
-  console.log(data);
+// app.post("", (req, res) => {
 
-  stripe.charges
-    .create(data)
-    .then((charge) => {
-      console.log(charge);
-      res.status(200).json(charge);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err);
-    });
-  return;
-});
+// });
 
 //// app.use('/auth', authRoute);
 // app.use('/user', userRoute);

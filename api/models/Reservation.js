@@ -19,8 +19,16 @@ const reservationSchema = new mongoose.Schema(
     },
     disponibilite: {
       type: mongoose.Types.ObjectId,
-      ref: "disponibilite",
+      ref: "plage",
       required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
+    reduction: {
+      type: mongoose.Types.ObjectId,
+      ref: "coupon",
     },
     status: {
       type: String,

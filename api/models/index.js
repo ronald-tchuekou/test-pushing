@@ -15,8 +15,8 @@ db.galerie = require("./Galerie");
 db.plage = require("./Plage");
 db.message = require("./Message");
 db.like = require("./Like");
-// db.cadeau = require("./Cadeau");
-// db.point = require("./Point");
+db.avis = require("./Avis");
+db.coupon = require("./Coupon");
 // db.panier = require("./Panier");
 // db.profilBeaute = require("./ProfilBeaute");
 

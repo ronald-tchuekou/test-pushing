@@ -75,7 +75,7 @@ exports.search = (req, res) => {
     uid: uid,
     prestation: prest,
   })
-    .populate("prestation uid")
+    .populate("prestation")
     .exec((err, prestation) => {
       if (err) {
         res.status(500).send({ message: err });

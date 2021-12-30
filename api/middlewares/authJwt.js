@@ -16,7 +16,6 @@ verifyToken = (req, res, next) => {
       if (err) {
         return res.status(401).send({ message: "Unauthorized!" });
       }
-      // console.log(decoded)
       req.userId = decoded.id;
       req.role = decoded.role;
       next();
@@ -31,6 +30,10 @@ isAdmin = (req, res, next) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
+    }
+
+    if (user === null || user === {}) {
+      return res.status(404).json({ message: "L'utilisateur n'existe pas" });
     }
 
     if (user.role === "admin") {
@@ -49,6 +52,10 @@ isCoiffeuse = (req, res, next) => {
       res.status(500).send({ message: err });
       return;
     }
+    if (user === null || user === {}) {
+      return res.status(404).json({ message: "L'utilisateur n'existe pas" });
+    }
+
     if (user.role === "coiffeuse") {
       next();
       return;
@@ -64,6 +71,10 @@ isCliente = (req, res, next) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
+    }
+
+    if (user === null || user === {}) {
+      return res.status(404).json({ message: "L'utilisateur n'existe pas" });
     }
 
     if (user.role === "cliente") {

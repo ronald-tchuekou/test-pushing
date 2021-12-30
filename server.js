@@ -96,25 +96,27 @@ require("./api/routes/disponibilite.route")(app);
 require("./api/routes/message.route")(app);
 require("./api/routes/reservation.route")(app);
 require("./api/routes/like.route")(app);
-// require("./api/routes/panier.route")(app);
+require("./api/routes/coupon.route")(app);
 // require("./api/routes/profilBeaute.route")(app);
 
 app.post("/stripe/charge", (req, res) => {
-  stripe.charges
-    .create({
-      amount: req.body.amount,
-      currency: req.body.currency,
-      source: req.body.token,
-      description: "My First Test Charge (created for API docs)",
-    })
-    .then((charge) => {
-      console.log(charge);
-      res.status(200).json(charge);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err);
-    });
+  // stripe.charges
+  //   .create({
+  //     amount: req.body.amount,
+  //     currency: req.body.currency,
+  //     source: req.body.token,
+  //     description: "My First Test Charge (created for API docs)",
+  //   })
+  //   .then((charge) => {
+  //     console.log(charge);
+  //     res.status(200).json(charge);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.send(err);
+  //   });
+  console.log(req.body);
+  return;
 });
 
 //// app.use('/auth', authRoute);

@@ -84,6 +84,9 @@ exports.getReservation = (req, res) => {
       {
         path: "reduction",
       },
+      {
+        path: "coiffeuse",
+      },
     ])
     .exec()
     .then((reserve) => {

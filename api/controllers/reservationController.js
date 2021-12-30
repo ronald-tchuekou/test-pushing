@@ -1,5 +1,7 @@
 const db = require("../models");
-const stripe = require("stripe")("sk_test_djG6iLVDmEakcUZ6H6enmHHz00EI0Z9ufX");
+const stripe = require("stripe")(
+  "sk_test_51JsMcWDHkYs3mdNXEYtAMkMWvdTSK4pDbu5QMKSI0lwhjydYtq2kEpPHEb6Fj1IQ0fZHvyDb6IfaNKV6bZL21XzL00NbItMEyI"
+);
 const Reservation = db.reservation;
 
 exports.allAccess = (req, res) => {

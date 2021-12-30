@@ -28,14 +28,20 @@ exports.createReservation = (req, res) => {
     .create(data)
     .then((charge) => {
       console.log(req.body);
-      const reservation = new Reservation({
+      let test = {
         cliente: req.userId,
         coiffeuse: req.body.data.prestation.uid._id,
         prestation: req.body.data.prestation._id,
         disponibilite: req.body.data.plage._id,
         date: req.body.data.date,
-        reduction: req.body.data.reduction._id,
-      });
+        reduction: "",
+      };
+      if (req.body.data.reduction === null) {
+        test.reduction = null;
+      } else {
+        test.reduction = req.body.data.reduction._id;
+      }
+      const reservation = new Reservation(test);
       reservation
         .save()
         .then((reserve) => {

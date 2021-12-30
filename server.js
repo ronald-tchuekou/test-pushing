@@ -100,24 +100,9 @@ require("./api/routes/coupon.route")(app);
 // require("./api/routes/profilBeaute.route")(app);
 
 app.post("/stripe/charge", (req, res) => {
-  // stripe.charges
-  //   .create({
-  //     amount: req.body.amount,
-  //     currency: req.body.currency,
-  //     source: req.body.token,
-  //     description: "My First Test Charge (created for API docs)",
-  //   })
-  //   .then((charge) => {
-  //     console.log(charge);
-  //     res.status(200).json(charge);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.send(err);
-  //   });
   let data = {
     amount: 0,
-    currency: req.body.currency,
+    currency: "EUR",
     source: req.body.token,
     description: `Frais demandés par la coiffeuse ${req.body.prestation.uid.prenom} pour des ${req.body.prestation.prestation.prestation}`,
   };
@@ -130,6 +115,17 @@ app.post("/stripe/charge", (req, res) => {
       100;
   }
   console.log(data);
+
+  stripe.charges
+    .create(data)
+    .then((charge) => {
+      console.log(charge);
+      res.status(200).json(charge);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
   return;
 });
 

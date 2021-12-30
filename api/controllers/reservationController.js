@@ -11,7 +11,7 @@ exports.createReservation = (req, res) => {
     amount: 0,
     currency: "EUR",
     source: req.body.token,
-    description: `Frais demandés par la coiffeuse ${req.body.data.prestation.uid.prenom} pour des ${req.body.data.prestation.prestation.prestation}`,
+    description: `Frais demandés pour des ${req.body.data.prestation.prestation.prestation}`,
   };
   if (req.body.data.reduction === null) {
     data.amount = req.body.data.prestation.tarif * 100;
@@ -24,38 +24,39 @@ exports.createReservation = (req, res) => {
   }
   console.log(data);
 
-  stripe.charges
-    .create(data)
-    .then((charge) => {
-      // console.log(req.body);
-      let test = {
-        cliente: req.userId,
-        coiffeuse: req.body.data.prestation.uid,
-        prestation: req.body.data.prestation._id,
-        disponibilite: req.body.data.plage._id,
-        date: req.body.data.date,
-        reduction: "",
-      };
-      if (req.body.data.reduction === null) {
-        test.reduction = null;
-      } else {
-        test.reduction = req.body.data.reduction._id;
-      }
-      const reservation = new Reservation(test);
-      reservation
-        .save()
-        .then((reserve) => {
-          console.log(reserve);
+  // console.log(req.body);
+  let test = {
+    cliente: req.userId,
+    coiffeuse: req.body.data.prestation.uid,
+    prestation: req.body.data.prestation._id,
+    disponibilite: req.body.data.plage._id,
+    date: req.body.data.date,
+    reduction: "",
+  };
+  if (req.body.data.reduction === null) {
+    test.reduction = null;
+  } else {
+    test.reduction = req.body.data.reduction._id;
+  }
+  const reservation = new Reservation(test);
+  reservation
+    .save()
+    .then((reserve) => {
+      console.log(reserve);
+      stripe.charges
+        .create(data)
+        .then((charge) => {
           return res.status(200).json(charge);
         })
         .catch((err) => {
-          console.log("add\n" + err);
+          console.log(err);
           res.send(err);
         });
     })
     .catch((err) => {
-      console.log(err);
+      console.log("add\n" + err);
       res.send(err);
     });
+
   return;
 };

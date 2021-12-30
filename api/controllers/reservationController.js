@@ -27,13 +27,14 @@ exports.createReservation = (req, res) => {
   stripe.charges
     .create(data)
     .then((charge) => {
-      // console.log(charge);
+      console.log(req.body);
       const reservation = new Reservation({
         cliente: req.userId,
         coiffeuse: req.body.data.prestation.uid._id,
         prestation: req.body.data.prestation._id,
         disponibilite: req.body.data.plage._id,
-        reduction: req.body.data.date,
+        date: req.body.data.date,
+        reduction: req.body.data.reduction._id,
       });
       reservation
         .save()

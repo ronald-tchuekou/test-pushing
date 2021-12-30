@@ -115,7 +115,21 @@ app.post("/stripe/charge", (req, res) => {
   //     console.log(err);
   //     res.send(err);
   //   });
-  console.log(req.body);
+  let data = {
+    amount: 0,
+    currency: req.body.currency,
+    source: req.body.token,
+    description: `Frais demandés par la coiffeuse ${req.body.prestation.uid.prenom} pour des ${req.body.prestation.prestation}`,
+  };
+  if (req.body.reduction === null) {
+    data.amount = req.body.prestation.tarif * 100;
+  } else {
+    data.amount =
+      (req.body.prestation.tarif -
+        (req.body.reduction.amount * req.body.prestation.tarif) / 100) *
+      100;
+  }
+  console.log(data);
   return;
 });
 

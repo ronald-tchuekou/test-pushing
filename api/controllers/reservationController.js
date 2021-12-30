@@ -60,3 +60,16 @@ exports.createReservation = (req, res) => {
 
   return;
 };
+
+exports.getReservation = (req, res) => {
+  Reservation.find({ cliente: req.userId })
+    .exec()
+    .populate("cliente coiffeuse prestation disponibilite reduction")
+    .then((reserve) => {
+      return res.status(200).json(reserve);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+};

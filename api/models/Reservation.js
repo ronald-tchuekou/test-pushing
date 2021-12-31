@@ -32,7 +32,7 @@ const reservationSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["AWAIT", "PAY", "UNPAY", "BACK"],
+      enum: ["AWAIT", "VALIDATE", "REFUSE", "FINISH"],
       default: "AWAIT",
       required: true,
     },

@@ -22,4 +22,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isCoiffeuse],
     controller.getCoiffeuseReservation
   );
+  app.put(
+    "/reservation/:id/:status",
+    [authJwt.verifyToken, authJwt.isCoiffeuse],
+    controller.updateReservationStatus
+  );
 };

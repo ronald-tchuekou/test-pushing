@@ -17,4 +17,9 @@ module.exports = function (app) {
   );
 
   app.get("/reservation", [authJwt.verifyToken], controller.getReservation);
+  app.get(
+    "/reservation/coiffeuse",
+    [authJwt.verifyToken, authJwt.isCoiffeuse],
+    controller.getCoiffeuseReservation
+  );
 };

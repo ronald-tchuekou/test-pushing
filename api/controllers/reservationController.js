@@ -99,3 +99,40 @@ exports.getReservation = (req, res) => {
       res.send(err);
     });
 };
+
+exports.getCoiffeuseReservation = (req, res) => {
+  Reservation.find({ coiffeuse: req.userId })
+    .populate([
+      {
+        path: "prestation",
+        populate: [
+          {
+            path: "prestation",
+          },
+          {
+            path: "uid",
+          },
+        ],
+      },
+      {
+        path: "cliente",
+      },
+      {
+        path: "disponibilite",
+      },
+      {
+        path: "reduction",
+      },
+      {
+        path: "coiffeuse",
+      },
+    ])
+    .exec()
+    .then((reserve) => {
+      return res.status(200).json(reserve);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+};

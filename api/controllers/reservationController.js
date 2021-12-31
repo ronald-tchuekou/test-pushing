@@ -101,7 +101,10 @@ exports.getReservation = (req, res) => {
 };
 
 exports.getCoiffeuseReservation = (req, res) => {
-  Reservation.find({ coiffeuse: req.userId })
+  Reservation.find({
+    coiffeuse: req.userId,
+    $or: [{ status: "AWAIT" }, { status: "VALIDATE" }],
+  })
     .populate([
       {
         path: "prestation",

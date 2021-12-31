@@ -137,8 +137,8 @@ exports.updateUser = (req, res) => {
   if (req.body.prenom) userData.prenom = req.body.prenom;
   if (req.body.biographie) userData.biographie = req.body.biographie;
   if (req.body.numero) userData.numero = req.body.numero;
-  if (req.body.domicile) userData.domicile = req.body.domicile;
-  if (req.body.deplace) userData.deplace = req.body.deplace;
+  userData.domicile = req.body.domicile;
+  userData.deplace = req.body.deplace;
   if (req.body.ville) userData.ville = req.body.ville;
 
   if (req.body._id !== req.userId) {

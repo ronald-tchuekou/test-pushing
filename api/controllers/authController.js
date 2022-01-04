@@ -262,3 +262,21 @@ exports.getAllUser = (req, res) => {
       res.status(200).send(user);
     });
 };
+
+exports.getAllCoiffeuse = (req, res) => {
+  User.find({ role: "coiffeuse" })
+    .select(
+      "nom prenom email biographie imageURL domicile deplace ville numero"
+    )
+    .exec()
+    .then((result) => {
+      return res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue sur le serveur",
+        error: err,
+      });
+    });
+};

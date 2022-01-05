@@ -280,3 +280,21 @@ exports.getAllCoiffeuse = (req, res) => {
       });
     });
 };
+
+exports.getUserById = (req, res) => {
+  User.findById(req.params.id)
+    .select(
+      "nom prenom email biographie imageURL domicile deplace ville numero"
+    )
+    .exec()
+    .then((result) => {
+      return res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue sur le serveur",
+        error: err,
+      });
+    });
+};

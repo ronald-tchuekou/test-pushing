@@ -33,4 +33,5 @@ module.exports = function (app) {
   app.post("/auth/signin", controller.signin);
 
   app.get("/auth/users", [authJwt.verifyToken], controller.getAllUser);
+  app.get("/auth/user/:id", [authJwt.verifyToken], controller.getUserById);
 };

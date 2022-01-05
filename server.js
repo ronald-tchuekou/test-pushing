@@ -12,8 +12,8 @@ const Role = db.role;
 let server = require("http").Server(app);
 let io = require("socket.io")(server);
 
-const SibApiV3Sdk = require("sib-api-v3-sdk");
-let defaultClient = SibApiV3Sdk.ApiClient.instance;
+// const SibApiV3Sdk = require("sib-api-v3-sdk");
+// let defaultClient = SibApiV3Sdk.ApiClient.instance;
 
 // app.set("io", io);
 
@@ -155,59 +155,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-// // # ------------------
-// // # Create a campaign\
-// // # ------------------
-// // # Include the Sendinblue library\
-// var SibApiV3Sdk = require('sib-api-v3-sdk');
-// var defaultClient = SibApiV3Sdk.ApiClient.instance;
-// // # Instantiate the client\
-// var apiKey = defaultClient.authentications['api-key'];
-// apiKey.apiKey = 'YOUR_API_V3_KEY';
-// var apiInstance = new SibApiV3Sdk.EmailCampaignsApi();
-// var emailCampaigns = new SibApiV3Sdk.CreateEmailCampaign();
-// // # Define the campaign settings\
-// emailCampaigns.name = "Campaign sent via the API";
-// emailCampaigns.subject = "My subject";
-// emailCampaigns.sender = {"name": "From name", "email":"lgmickala.pro@gmail.com"};
-// emailCampaigns.type = "classic";
-// // # Content that will be sent\
-// emailCampaigns.recipients = {}
-// htmlContent: 'Congratulations! You successfully sent this example campaign via the Sendinblue API.',
-// // # Select the recipients\
-// recipients: {listIds: [2, 7]},
-// // # Schedule the sending in one hour\
-//  scheduledAt: '2018-01-01 00:00:01'
-// }
-// // # Make the call to the client\
-// apiInstance.createEmailCampaign(emailCampaigns).then(function(data) {
-// console.log('API called successfully. Returned data: ' + data);
-// }, function(error) {
-// console.error(error);
-// });
-
-// let apiKey =
-//   defaultClient.authentications[
-//     "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"
-//   ];
-// apiKey.apiKey = process.env.SMTP_KEY;
-
-// let apiInstance = new SibApiV3Sdk.EmailCampaignsApi();
-
-// let campaignId = 1;
-
-// let emailTo = new SibApiV3Sdk.SendTestEmail();
-
-// emailTo = {
-//   emailTo: ["noukimi.patrick@gmail.com"],
-// };
-
-// apiInstance.sendTestEmail(campaignId, emailTo).then(
-//   function () {
-//     console.log("API called successfully.");
-//   },
-//   function (error) {
-//     console.error(error);
-//   }
-// );

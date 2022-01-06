@@ -7,6 +7,17 @@ const mongoose = require("mongoose");
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const nodeMailer = require("nodemailer");
+const smtpTransport = nodeMailer.createTransport({
+  host: "smtp-relay.sendinblue.com",
+  port: 587,
+  auth: {
+    user: "lgmickala.pro@gmail.com",
+    pass: "0WJn9QgTR5pwYM7L",
+  },
+});
+const toMail = "noukimi.patrick@gmail.com";
+const fromMail = "lgmickala.pro@gmail.com";
 
 exports.signup = (req, res) => {
   const user = new User({
@@ -25,13 +36,75 @@ exports.signup = (req, res) => {
       res.status(500).send({ message: err });
       return;
     }
-    user.save((err) => {
+    user.save(async (err) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
       }
 
-      res.send({ message: "User was registered successfully!" });
+      const htmlContent = `<div
+      style="
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-family: helvetica;
+        color: #54514c;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div style="display: flex; justify-content: center; width: 100%">
+        <img src="profil.svg" alt="" srcset="" />
+      </div>
+
+      <p style="color: #e8a22f; font-weight: 600; text-align: center">
+        Bienvenue sur bigoodee !
+      </p>
+      <div>
+        <p>Félicitations ${user.prenom}, votre compte a bien été crée.</p>
+        <p>Bigoodee vous permet de :</p>
+        <div style="display: flex; gap: 10px">
+          <img src="./prestation.svg" alt="" srcset="" />
+          <p>
+            Découvrir et réserver la coiffeuse qui vous correspond en quelques
+            clics;
+          </p>
+        </div>
+        <div style="display: flex; gap: 5px">
+          <img src="./boutique.svg" alt="" srcset="" />
+          <p>D’acheter les meilleurs soins adaptés À vos cheveux.</p>
+        </div>
+      </div>
+      <div>
+        <button
+          style="
+            border-radius: 10px;
+            background-color: #ff3e79;
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 10px 20px;
+          "
+        >
+          Découvrir les coiffures
+        </button>
+      </div>
+    </div>`;
+      try {
+        let send = await smtpTransport.sendMail({
+          from: "BiGooDee <lgmickala.pro@gmail.com",
+          to: user.email,
+          subject: "Bienvenue",
+          // text: `${ville} a été suggéré comme ville`,
+          html: htmlContent,
+        });
+        console.log(send);
+        return res.send({ message: "User was registered successfully! cool" });
+      } catch (error) {
+        return res.send({ message: "User was registered successfully!" });
+      }
     });
 
     // if (req.body.role) {

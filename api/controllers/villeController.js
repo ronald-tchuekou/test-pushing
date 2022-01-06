@@ -131,7 +131,6 @@ exports.conctact = async (req, res) => {
       to: toMail,
       subject: objet,
       text: message,
-      // html: `<div style="color:red; font-size: 48px;">je suis un html hyper Cool</div>`,
     });
     console.log(send);
     return res.status(250).json({ message: `Votre message a été envoyé` });

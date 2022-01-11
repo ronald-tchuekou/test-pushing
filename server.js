@@ -5,25 +5,30 @@ const bodyParser = require("body-parser");
 // const cors = require("cors");
 const db = require("./api/models");
 const dbConfig = require("./api/config/db.config");
+const { message } = require("./api/models");
 
 const app = express();
 const Role = db.role;
+const Chat = db.message;
 
-let server = require("http").Server(app);
-let io = require("socket.io")(server);
+// let server = require("http").Server(app);
+
+// set port, listen for requests
+const PORT = process.env.PORT || 3000;
+let server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
+let io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    method: ["GET", "POST"],
+  },
+});
 
 // const SibApiV3Sdk = require("sib-api-v3-sdk");
 // let defaultClient = SibApiV3Sdk.ApiClient.instance;
 
 // app.set("io", io);
-
-io.on("connection", function (socket) {
-  console.log("connecter" + socket),
-    socket.on("setUser", function (data) {
-      console.log(data);
-      socket.emit("test", data);
-    });
-});
 
 app.use(helmet());
 app.disable("x-powered-by");
@@ -150,8 +155,43 @@ app.get("/", (req, res) => {
   res.json({ message: "Bienvenue sur l'API BiGooDee." });
 });
 
-// set port, listen for requests
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+io.on("connection", function (socket) {
+  socket.on("get-message", (data) => {
+    // {
+    //   $or: [
+    //     { toId: data.userId, fromId: data.uid },
+    //     { toId: data.uid, fromId: data.userId },
+    //   ],
+    // }
+    Chat.find()
+      .populate("toId fromId")
+      .exec()
+      .then((result) => {
+        console.log(result);
+        io.emit("getmessage", result);
+      });
+  });
+
+  console.log("connecter" + socket),
+    socket.on("disconnect", function () {
+      console.log("user disconnected");
+    });
+
+  // socket.on("setUser", function (data) {
+  //   console.log(data);
+  //   socket.emit("test", data);
+  // });
+
+  socket.on("add-message", (message) => {
+    const msg = new Chat({
+      toId: message.toId,
+      fromId: message.fromId,
+      message: message.message,
+      imageURL: message.imageURL,
+    });
+
+    msg.save().then(() => {
+      io.emit("message", message);
+    });
+  });
 });

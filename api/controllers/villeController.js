@@ -9,7 +9,7 @@ const smtpTransport = nodeMailer.createTransport({
     pass: "0WJn9QgTR5pwYM7L",
   },
 });
-const toMail = "noukimi.patrick@gmail.com";
+const toMail = "hello@bigoodee.com";
 const fromMail = "";
 
 exports.createVille = (req, res) => {

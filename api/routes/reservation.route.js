@@ -33,4 +33,10 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isCoiffeuse],
     controller.updateReservationStatus
   );
+  // admin
+  app.get(
+    "admin/reservation",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.adminGetReservation
+  );
 };

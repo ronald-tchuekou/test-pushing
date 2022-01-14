@@ -1,6 +1,6 @@
 const db = require("../models");
 const Chat = db.message;
-const io = require("socket.io")(3000);
+// const io = require("socket.io")(3000);
 
 exports.sendMessage = (req, res) => {
   // const io = req.app.get("io");

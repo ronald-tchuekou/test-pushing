@@ -68,7 +68,7 @@ const userSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["AWAIT", "VALIDATE"],
+      enum: ["AWAIT", "VALIDATE", "DELETE"],
       default: "AWAIT",
       required: false,
     },

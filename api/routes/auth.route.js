@@ -45,4 +45,10 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.getAllCliente
   );
+
+  app.put(
+    "/admin/user/updatestatus/:uid",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.updateStatus
+  );
 };

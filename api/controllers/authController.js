@@ -338,6 +338,7 @@ exports.getAllUser = (req, res) => {
 
 exports.getAllCoiffeuse = (req, res) => {
   User.find({ role: "coiffeuse" })
+    .sort({ prenom: 1 })
     .select(
       "nom prenom email biographie imageURL domicile deplace ville numero"
     )
@@ -357,8 +358,46 @@ exports.getAllCoiffeuse = (req, res) => {
 exports.getUserById = (req, res) => {
   User.findById(req.params.id)
     .select(
-      "nom prenom email biographie imageURL domicile deplace ville numero"
+      "nom prenom email biographie imageURL domicile deplace ville numero createdAt"
     )
+    .exec()
+    .then((result) => {
+      return res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue sur le serveur",
+        error: err,
+      });
+    });
+};
+
+exports.getAwaitCoiffeuse = (req, res) => {
+  const status = req.query.status || "AWAIT";
+
+  User.find({
+    $and: [{ role: "coiffeuse" }, { status: status }],
+  })
+    .select(
+      "nom prenom email biographie imageURL domicile deplace ville numero createdAt"
+    )
+    .exec()
+    .then((result) => {
+      return res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue sur le serveur",
+        error: err,
+      });
+    });
+};
+
+exports.getAllCliente = (req, res) => {
+  User.find({ role: "cliente" })
+    .select("nom prenom email imageURL ville numero createdAt")
     .exec()
     .then((result) => {
       return res.status(200).json(result);

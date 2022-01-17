@@ -3,6 +3,7 @@ const stripe = require("stripe")(
   "sk_test_51JsMcWDHkYs3mdNXEYtAMkMWvdTSK4pDbu5QMKSI0lwhjydYtq2kEpPHEb6Fj1IQ0fZHvyDb6IfaNKV6bZL21XzL00NbItMEyI"
 );
 const Reservation = db.reservation;
+const mongoose = require("mongoose");
 
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
@@ -206,8 +207,9 @@ exports.getReservationByStatus = (req, res) => {
     });
 };
 
-exports.adminGetReservation = (req, res) => {
-  Reservation.find()
+exports.adminGetReservationById = (req, res) => {
+  const id = req.params.id;
+  Reservation.findById(id)
     .populate([
       {
         path: "prestation",
@@ -233,6 +235,142 @@ exports.adminGetReservation = (req, res) => {
         path: "coiffeuse",
       },
     ])
+    .exec()
+    .then((reserve) => {
+      return res.status(200).json(reserve);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+};
+
+exports.adminGetReservation = (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.limit) || 10;
+
+  Reservation.find()
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+    .populate([
+      {
+        path: "prestation",
+        populate: [
+          {
+            path: "prestation",
+          },
+          {
+            path: "uid",
+          },
+        ],
+      },
+      {
+        path: "cliente",
+      },
+      {
+        path: "disponibilite",
+      },
+      {
+        path: "reduction",
+      },
+      {
+        path: "coiffeuse",
+      },
+    ])
+    .exec()
+    .then((reserve) => {
+      return res.status(200).json({
+        data: reserve,
+        currentPage: page,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+};
+
+exports.updateReservationCoiffeuse = (req, res) => {
+  let data = {};
+
+  data.coiffeuse = req.body.coiffeuse;
+  data.status = "AWAIT";
+  const id = req.params.id;
+
+  Reservation.update({ _id: id }, { $set: data })
+    .exec()
+    .then((resultat) => {
+      if (!resultat)
+        return res.status(404).json({
+          message: "Oups!! aucune information pour l'identifiant fourni",
+        });
+      res.status(200).json({
+        message: "Mise à jour reussie",
+        doc: resultat,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue sur le serveur",
+        error: err,
+      });
+    });
+};
+
+exports.adminGetReservationCoiffeuse = (req, res) => {
+  const cid = mongoose.Types.ObjectId(req.params.id);
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.limit) || 10;
+
+  Reservation.find({
+    $and: [{ coiffeuse: cid }, { date: { $gte: new Date(Date.now()) } }],
+  })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+    .populate([
+      {
+        path: "prestation",
+        populate: [
+          {
+            path: "prestation",
+          },
+          {
+            path: "uid",
+          },
+        ],
+      },
+      {
+        path: "cliente",
+      },
+      {
+        path: "disponibilite",
+      },
+      {
+        path: "reduction",
+      },
+      {
+        path: "coiffeuse",
+      },
+    ])
+    .exec()
+    .then((reserve) => {
+      return res.status(200).json({
+        data: reserve,
+        currentPage: page,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+};
+
+exports.getAllClienteReserve = (req, res) => {
+  Reservation.aggregate([
+    { $group: { _id: { cliente: "$cliente", coiffeuse: "$coiffeuse" } } },
+  ])
+    // .populate("cliente coiffeuse")
     .exec()
     .then((reserve) => {
       return res.status(200).json(reserve);

@@ -36,6 +36,11 @@ const reservationSchema = new mongoose.Schema(
       default: "AWAIT",
       required: true,
     },
+    isRead: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
   },
   { timestamps: true }
 );

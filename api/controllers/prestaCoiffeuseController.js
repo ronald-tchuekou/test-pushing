@@ -25,7 +25,7 @@ exports.create = (req, res) => {
 
 exports.getCoiffeusePresta = (req, res) => {
   PrestaCoif.find({
-    uid: req.userId,
+    uid: req.userId || req.params.id,
   })
     .populate("prestation uid")
     .exec((err, prsetation) => {
@@ -40,17 +40,18 @@ exports.getCoiffeusePresta = (req, res) => {
 
 exports.getSearchCoiffeusePresta = (req, res) => {
   const uid = req.query.uid;
+
   PrestaCoif.find({
     uid: uid,
   })
     .populate("prestation uid")
-    .exec((err, prsetation) => {
+    .exec((err, prestation) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
       }
 
-      return res.status(200).send(prsetation);
+      return res.status(200).send(prestation);
     });
 };
 

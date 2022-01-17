@@ -34,4 +34,15 @@ module.exports = function (app) {
 
   app.get("/auth/users", [authJwt.verifyToken], controller.getAllUser);
   app.get("/auth/user/:id", [authJwt.verifyToken], controller.getUserById);
+
+  app.get(
+    "/admin/users/coiffeuses",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.getAwaitCoiffeuse
+  );
+  app.get(
+    "/add/users/clientes",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.getAllCliente
+  );
 };

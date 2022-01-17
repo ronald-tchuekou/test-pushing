@@ -35,8 +35,31 @@ module.exports = function (app) {
   );
   // admin
   app.get(
-    "admin/reservation",
+    "/admin/reservation",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminGetReservation
+  );
+  app.get(
+    "/admin/reservation/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.adminGetReservationById
+  );
+
+  app.get(
+    "/admin/reservation/coiffeuse/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.adminGetReservationCoiffeuse
+  );
+
+  app.put(
+    "/admin/reservation/change/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.updateReservationCoiffeuse
+  );
+
+  app.get(
+    "/admin/cliente/reservation",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.getAllClienteReserve
   );
 };

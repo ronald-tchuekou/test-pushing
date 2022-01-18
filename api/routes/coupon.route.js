@@ -10,6 +10,20 @@ module.exports = function (app) {
     next();
   });
 
-  app.post("/coupon", controller.coupons_create_coupon);
+  app.post(
+    "/coupon",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.coupons_create_coupon
+  );
   app.get("/coupon/:code", controller.getCouponByCode);
+  app.get(
+    "/coupon",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.getAllCoupon
+  );
+  app.put(
+    "/coupon/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.deletecoupon
+  );
 };

@@ -5,11 +5,11 @@ exports.coupons_create_coupon = (req, res, next) => {
   const couponCode = coupongenerator();
   const newCoupon = new Coupon({
     code: couponCode,
-    isPercent: req.body.isPercent,
+    // isPercent: true,
     amount: req.body.amount,
     expireDate: req.body.expireDate,
-    remeningNumber: req.body.remeningNumber,
-    isActive: req.body.isActive,
+    // remeningNumber: req.body.remeningNumber,
+    // isActive: req.body.isActive,
   });
 
   if (newCoupon.isPercent == true && newCoupon.amount > 100) {
@@ -32,7 +32,7 @@ exports.coupons_create_coupon = (req, res, next) => {
 };
 
 exports.getCouponByCode = (req, res) => {
-  Coupon.findOne({ code: req.params.code })
+  Coupon.findOne({ code: req.params.code, isActive: true })
     .exec()
     .then((coupon) => {
       if (coupon) {
@@ -48,6 +48,25 @@ exports.getCouponByCode = (req, res) => {
       } else {
         return res.status(404).json({ message: "Coupon invalide" });
       }
+    });
+};
+
+exports.getAllCoupon = (req, res) => {
+  Coupon.find({ isActive: true })
+    .exec()
+    .then((coupon) => {
+      res.status(200).json(coupon);
+    });
+};
+
+exports.deletecoupon = (req, res) => {
+  Coupon.updateOne(
+    { _id: req.params.id, isActive: true },
+    { $set: { isActive: false } }
+  )
+    .exec()
+    .then((coupon) => {
+      res.status(200).json(coupon);
     });
 };
 

@@ -104,7 +104,7 @@ require("./api/routes/message.route")(app);
 require("./api/routes/reservation.route")(app);
 require("./api/routes/like.route")(app);
 require("./api/routes/coupon.route")(app);
-// require("./api/routes/profilBeaute.route")(app);
+require("./api/routes/avis.route")(app);
 
 // app.post("", (req, res) => {
 
@@ -164,6 +164,7 @@ io.on("connection", function (socket) {
     //   ],
     // }
     Chat.find()
+      .sort({ createdAt: -1 })
       .populate("toId fromId")
       .exec()
       .then((result) => {

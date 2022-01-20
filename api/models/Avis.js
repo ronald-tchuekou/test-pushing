@@ -18,9 +18,15 @@ const avisSchema = new mongoose.Schema(
       required: true,
     },
 
-    uid: {
+    cliente: {
       type: mongoose.Types.ObjectId,
       ref: "utilisateur",
+      required: true,
+    },
+    publish: {
+      type: String,
+      enum: ["AWAIT", "PUBLISH"],
+      default: "AWAIT",
       required: true,
     },
   },

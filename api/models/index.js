@@ -18,7 +18,7 @@ db.like = require("./Like");
 db.avis = require("./Avis");
 db.coupon = require("./Coupon");
 db.reservation = require("./Reservation");
-// db.profilBeaute = require("./ProfilBeaute");
+db.avis = require("./Avis");
 
 db.ROLES = ["cliente", "coiffeuse", "admin"];
 

@@ -164,7 +164,7 @@ io.on("connection", function (socket) {
     //   ],
     // }
     Chat.find()
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .populate("toId fromId")
       .exec()
       .then((result) => {

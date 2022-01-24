@@ -324,7 +324,7 @@ exports.adminGetReservationCoiffeuse = (req, res) => {
   const pageSize = parseInt(req.query.limit) || 10;
 
   Reservation.find({
-    $and: [{ coiffeuse: cid }, { date: { $gte: new Date(Date.now()) } }],
+    $and: [{ coiffeuse: cid }],
   })
     .skip((page - 1) * pageSize)
     .limit(pageSize)

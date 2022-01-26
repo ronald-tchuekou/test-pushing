@@ -12,12 +12,12 @@ const smtpTransport = nodeMailer.createTransport({
   host: "smtp-relay.sendinblue.com",
   port: 587,
   auth: {
-    user: "lgmickala.pro@gmail.com",
-    pass: "0WJn9QgTR5pwYM7L",
+    user: "contact@weeb-studio.fr",
+    pass: "xYBSmX3KTWRrIUN6",
   },
 });
 const toMail = "noukimi.patrick@gmail.com";
-const fromMail = "lgmickala.pro@gmail.com";
+const fromMail = "hello@bigoodee.com";
 
 exports.signup = (req, res) => {
   const user = new User({
@@ -166,7 +166,7 @@ exports.signup = (req, res) => {
       try {
         let send = await smtpTransport.sendMail({
           from: "BiGooDee <lgmickala.pro@gmail.com",
-          to: user.email,
+          to: "noukimi.patrick@gmail.com",
           subject: "Bienvenue",
           // text: `${ville} a été suggéré comme ville`,
           html: htmlContent,

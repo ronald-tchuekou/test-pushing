@@ -207,6 +207,31 @@ exports.getReservationByStatus = (req, res) => {
     });
 };
 
+exports.cancelReservation = (req, res) => {
+  let userData = {};
+
+  userData.status = "REFUSE";
+  Reservation.updateOne({ _id: req.params.id }, { $set: userData })
+    .exec()
+    .then((resultat) => {
+      if (!resultat)
+        return res.status(404).json({
+          message: "Oups!! aucune information pour l'identifiant fourni",
+        });
+      res.status(200).json({
+        message: "Mise à jour reussie",
+        doc: resultat,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Oups!! une erreur est survenue sur le serveur",
+        error: err,
+      });
+    });
+};
+
 exports.adminGetReservationById = (req, res) => {
   const id = req.params.id;
   Reservation.findById(id)
@@ -250,6 +275,51 @@ exports.adminGetReservation = (req, res) => {
   const pageSize = parseInt(req.query.limit) || 10;
 
   Reservation.find()
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+    .populate([
+      {
+        path: "prestation",
+        populate: [
+          {
+            path: "prestation",
+          },
+          {
+            path: "uid",
+          },
+        ],
+      },
+      {
+        path: "cliente",
+      },
+      {
+        path: "disponibilite",
+      },
+      {
+        path: "reduction",
+      },
+      {
+        path: "coiffeuse",
+      },
+    ])
+    .exec()
+    .then((reserve) => {
+      return res.status(200).json({
+        data: reserve,
+        currentPage: page,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+};
+
+exports.adminGetReservationStatus = (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.limit) || 10;
+
+  Reservation.find({ $or: [{ status: "AWAIT" }, { status: "VALIDATE" }] })
     .skip((page - 1) * pageSize)
     .limit(pageSize)
     .populate([

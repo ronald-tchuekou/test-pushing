@@ -34,6 +34,18 @@ module.exports = function (app) {
     controller.updateReservationStatus
   );
   // admin
+
+  app.put(
+    "/admin/refuse/reservation/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.cancelReservation
+  );
+  app.get(
+    "/admin/reservation/status",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.adminGetReservationStatus
+  );
+
   app.get(
     "/admin/reservation",
     [authJwt.verifyToken, authJwt.isAdmin],

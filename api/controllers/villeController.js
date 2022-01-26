@@ -5,8 +5,8 @@ const smtpTransport = nodeMailer.createTransport({
   host: "smtp-relay.sendinblue.com",
   port: 587,
   auth: {
-    user: "lgmickala.pro@gmail.com",
-    pass: "0WJn9QgTR5pwYM7L",
+    user: "contact@weeb-studio.fr",
+    pass: "xYBSmX3KTWRrIUN6",
   },
 });
 const toMail = "hello@bigoodee.com";

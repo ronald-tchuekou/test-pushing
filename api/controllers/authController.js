@@ -56,7 +56,11 @@ exports.signup = (req, res) => {
       "
     >
       <div style="display: flex; justify-content: center; width: 100%">
-        <img src="profil.svg" alt="" srcset="" />
+        <img
+          src="http://localhost:4200/assets/profilheader.svg"
+          alt=""
+          srcset=""
+        />
       </div>
 
       <p style="color: #e8a22f; font-weight: 600; text-align: center">
@@ -66,14 +70,22 @@ exports.signup = (req, res) => {
         <p>Félicitations ${user.prenom}, votre compte a bien été crée.</p>
         <p>Bigoodee vous permet de :</p>
         <div style="display: flex; gap: 10px">
-          <img src="./prestation.svg" alt="" srcset="" />
+          <img
+            src="http://localhost:4200/assets/prestations.svg"
+            alt=""
+            srcset=""
+          />
           <p>
             Découvrir et réserver la coiffeuse qui vous correspond en quelques
             clics;
           </p>
         </div>
         <div style="display: flex; gap: 5px">
-          <img src="./boutique.svg" alt="" srcset="" />
+          <img
+            src="http://localhost:4200/assets/boutique.svg"
+            alt=""
+            srcset=""
+          />
           <p>D’acheter les meilleurs soins adaptés À vos cheveux.</p>
         </div>
       </div>
@@ -90,6 +102,65 @@ exports.signup = (req, res) => {
         >
           Découvrir les coiffures
         </button>
+      </div>
+
+      <div
+        style="
+          margin-top: 20px;
+          width: 100%;
+          background-color: #ff3e79;
+          color: white;
+          display: flex;
+          flex-direction: column;
+          padding: 10px;
+          padding-bottom: 0;
+          text-align: center;
+        "
+      >
+        <div
+          style="border: 1px solid white; border-radius: 20px; padding: 10px"
+        >
+          <p style="font-size: 20px; font-weight: bold; text-align: center">
+            Télechargez notre application !
+          </p>
+          <div style="display: flex">
+            <div style="width: 50%; display: flex; justify-content: center">
+              <img
+                src="http://localhost:4200/assets/icon.png"
+                alt=""
+                srcset=""
+              />
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+              "
+            >
+              <img
+                src="http://localhost:4200/assets/appstore1.svg"
+                alt=""
+                srcset=""
+              />
+              <img
+                src="http://localhost:4200/assets/google1.svg"
+                alt=""
+                srcset=""
+              />
+            </div>
+          </div>
+        </div>
+
+        <p style="font-style: 18px; font-weight: 600">Suivez - nous sur</p>
+        <div style=""></div>
+        <p style="font-style: 18px; font-weight: 600">www.app.bigoodee.com</p>
+        <p style="font-style: 14px; font-weight: 500">
+          © Bigoodee 2021 tous droits réservés.
+        </p>
       </div>
     </div>`;
       try {

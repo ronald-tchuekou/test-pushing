@@ -57,7 +57,7 @@ exports.signup = (req, res) => {
     >
       <div style="display: flex; justify-content: center; width: 100%">
         <img
-          src="http://localhost:4200/assets/profilheader.svg"
+          src="http://93.90.207.75:4500/assets/profilheader.svg"
           alt=""
           srcset=""
         />
@@ -71,7 +71,7 @@ exports.signup = (req, res) => {
         <p>Bigoodee vous permet de :</p>
         <div style="display: flex; gap: 10px">
           <img
-            src="http://localhost:4200/assets/prestations.svg"
+            src="http://93.90.207.75:4500/assets/prestations.svg"
             alt=""
             srcset=""
           />
@@ -82,7 +82,7 @@ exports.signup = (req, res) => {
         </div>
         <div style="display: flex; gap: 5px">
           <img
-            src="http://localhost:4200/assets/boutique.svg"
+            src="http://93.90.207.75:4500/assets/boutique.svg"
             alt=""
             srcset=""
           />
@@ -126,7 +126,7 @@ exports.signup = (req, res) => {
           <div style="display: flex">
             <div style="width: 50%; display: flex; justify-content: center">
               <img
-                src="http://localhost:4200/assets/icon.png"
+                src="http://93.90.207.75:4500/assets/icon.png"
                 alt=""
                 srcset=""
               />
@@ -142,12 +142,12 @@ exports.signup = (req, res) => {
               "
             >
               <img
-                src="http://localhost:4200/assets/appstore1.svg"
+                src="http://93.90.207.75:4500/assets/appstore1.svg"
                 alt=""
                 srcset=""
               />
               <img
-                src="http://localhost:4200/assets/google1.svg"
+                src="http://93.90.207.75:4500/assets/google1.svg"
                 alt=""
                 srcset=""
               />
